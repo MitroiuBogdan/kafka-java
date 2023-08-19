@@ -18,13 +18,17 @@ repositories {
 dependencies {
 
     implementation("org.apache.kafka:kafka-clients:3.1.0")
-    implementation("org.slf4j:slf4j-api:1.7.35")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("org.slf4j:slf4j-simple:1.7.35")
+    compileOnly("org.projectlombok:lombok:1.18.20")
+    annotationProcessor("org.projectlombok:lombok:1.18.20")
+
 
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+
 }
+
+
