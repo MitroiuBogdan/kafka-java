@@ -10,9 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Slf4j
 public class KafkaJavaApplication implements CommandLineRunner {
 
-    @Autowired
-    Producer producer;
 
+    @Autowired
+    MainFlowService mainFlowService;
 
     public static void main(String[] args) {
         SpringApplication.run(KafkaJavaApplication.class, args);
@@ -20,8 +20,6 @@ public class KafkaJavaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("Hello form the log");
-        producer.sendWithCallback(Topics.TOPIC_1, "Hello from intellij");
-
+        mainFlowService.start();
     }
 }
