@@ -1,6 +1,7 @@
 package com.yllu.kafkajava;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -8,7 +9,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
+import static com.yllu.kafkajava.LogNameParameters.*;
+
 @Component
+@Slf4j
 public class Producer {
 
     private KafkaProducer<String, String> kafkaProducer;
@@ -26,6 +30,23 @@ public class Producer {
         kafkaProducer.flush(); //send data and block until done
 
         kafkaProducer.close();
+    }
+
+    public void sendWithCallback(String topic, String value) {
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, value);
+
+        kafkaProducer.send(producerRecord, ((metadata, exception) -> {
+            if (exception == null) {
+                logKafkaRecordMetadata(metadata);
+            } else {
+                log.error("An error has occurred while trying to send message on {}:{}", TOPIC, metadata.topic(), exception);
+            }
+
+        }));
+
+        kafkaProducer.flush(); //send data and block until done
+        kafkaProducer.close();
+
     }
 
 

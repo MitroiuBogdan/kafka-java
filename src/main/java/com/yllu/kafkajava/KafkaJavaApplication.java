@@ -21,7 +21,7 @@ public class KafkaJavaApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("Hello form the log");
-        producer.send(Topics.TOPIC_1, "Hello from intellij");
+        producer.sendWithCallback(Topics.TOPIC_1, "Hello from intellij");
 
     }
 }
